@@ -3,8 +3,9 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { Configuration, OpenAIApi } from 'openai';
 
+// OpenAIの設定を定義
 const configuration = new Configuration({
-  apiKey: process.env.OPENAI_API_KEY,
+  apiKey: process.env.OPENAI_API_KEY, // 環境変数からAPIキーを取得
 });
 
 const openai = new OpenAIApi(configuration);
