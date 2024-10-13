@@ -4,9 +4,23 @@
 
 import { useState } from 'react';
 
+// 色データの型定義
+interface ColorCategory {
+  strong: string;
+  standard: string;
+  soft: string;
+}
+
+interface ColorData {
+  Prime: ColorCategory;
+  Accent: ColorCategory;
+  background: ColorCategory;
+  text: ColorCategory;
+}
+
 export default function Home() {
   const [text, setText] = useState('');
-  const [colorData, setColorData] = useState<any>(null); // anyを使用して柔軟にデータを受け取れるように
+  const [colorData, setColorData] = useState<ColorData | null>(null); // ColorData型を使用
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -27,7 +41,7 @@ export default function Home() {
       const data = await response.json();
 
       if (data && data.color) {
-        setColorData(data.color);
+        setColorData(data.color as ColorData); // ColorData型として色データを取得
       } else {
         setError('色データを取得できませんでした');
       }
@@ -78,9 +92,15 @@ export default function Home() {
               {['Prime', 'Accent', 'background', 'text'].map((category) => (
                 <tr key={category}>
                   <td>{category}</td>
-                  <td style={{ backgroundColor: colorData[category]?.strong || '#ffffff' }}>{colorData[category]?.strong || 'N/A'}</td>
-                  <td style={{ backgroundColor: colorData[category]?.standard || '#ffffff' }}>{colorData[category]?.standard || 'N/A'}</td>
-                  <td style={{ backgroundColor: colorData[category]?.soft || '#ffffff' }}>{colorData[category]?.soft || 'N/A'}</td>
+                  <td style={{ backgroundColor: colorData[category as keyof ColorData]?.strong || '#ffffff' }}>
+                    {colorData[category as keyof ColorData]?.strong || 'N/A'}
+                  </td>
+                  <td style={{ backgroundColor: colorData[category as keyof ColorData]?.standard || '#ffffff' }}>
+                    {colorData[category as keyof ColorData]?.standard || 'N/A'}
+                  </td>
+                  <td style={{ backgroundColor: colorData[category as keyof ColorData]?.soft || '#ffffff' }}>
+                    {colorData[category as keyof ColorData]?.soft || 'N/A'}
+                  </td>
                 </tr>
               ))}
             </tbody>
