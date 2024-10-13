@@ -1,37 +1,111 @@
-// pages/api/getColor.ts
-
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { Configuration, OpenAIApi } from 'openai';
+import OpenAI from 'openai'; // 最新のインポート方法
 
-// OpenAIの設定を定義
-const configuration = new Configuration({
-  apiKey: process.env.OPENAI_API_KEY, // 環境変数からAPIキーを取得
-});
+const openai = new OpenAI();
 
-const openai = new OpenAIApi(configuration);
-
-export default async (req: NextApiRequest, res: NextApiResponse) => {
-  const { text } = req.body;
-
-  const prompt = `
-  以下の文章から連想される色を、HEXカラーコードで教えてください。
-
-  文章: "${text}"
-  色:
-  `;
-
+export default async function getColor(req: NextApiRequest, res: NextApiResponse) {
   try {
-    const completion = await openai.createCompletion({
-      model: 'text-davinci-003',
-      prompt: prompt,
-      max_tokens: 10,
-      temperature: 0.7,
+    const completion = await openai.chat.completions.create({
+      model: "gpt-4o-2024-08-06",
+      messages: [
+        { role: "system", content: "You extract color schemes based on the given text." },
+        {
+          role: "user",
+          content: "Create a color scheme based on a sunset sky."
+        }
+      ],
+      response_format: {
+        type: "json_schema",
+        json_schema: {
+          name: "color_schema",
+          schema: {
+            type: "object",
+            properties: {
+              Light: {
+                type: "object",
+                properties: {
+                  Prime: {
+                    type: "object",
+                    properties: {
+                      strong: { type: "string" },
+                      standard: { type: "string" },
+                      soft: { type: "string" }
+                    }
+                  },
+                  Accent: {
+                    type: "object",
+                    properties: {
+                      strong: { type: "string" },
+                      standard: { type: "string" },
+                      soft: { type: "string" }
+                    }
+                  },
+                  background: {
+                    type: "object",
+                    properties: {
+                      strong: { type: "string" },
+                      standard: { type: "string" },
+                      soft: { type: "string" }
+                    }
+                  },
+                  text: {
+                    type: "object",
+                    properties: {
+                      strong: { type: "string" },
+                      standard: { type: "string" },
+                      soft: { type: "string" }
+                    }
+                  }
+                }
+              },
+              Dark: {
+                type: "object",
+                properties: {
+                  Prime: {
+                    type: "object",
+                    properties: {
+                      strong: { type: "string" },
+                      standard: { type: "string" },
+                      soft: { type: "string" }
+                    }
+                  },
+                  Accent: {
+                    type: "object",
+                    properties: {
+                      strong: { type: "string" },
+                      standard: { type: "string" },
+                      soft: { type: "string" }
+                    }
+                  },
+                  background: {
+                    type: "object",
+                    properties: {
+                      strong: { type: "string" },
+                      standard: { type: "string" },
+                      soft: { type: "string" }
+                    }
+                  },
+                  text: {
+                    type: "object",
+                    properties: {
+                      strong: { type: "string" },
+                      standard: { type: "string" },
+                      soft: { type: "string" }
+                    }
+                  }
+                }
+              }
+            },
+            additionalProperties: false
+          }
+        }
+      }
     });
 
-    const colorCode = completion.data.choices[0].text?.trim();
-    res.status(200).json({ color: colorCode });
+    console.log(completion.choices[0].message.content);
+    res.status(200).json({ color: completion.choices[0].message.content });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'エラーが発生しました。' });
   }
-};
+}
