@@ -1,5 +1,7 @@
 // app/page.tsx
 
+"use client";  // これをファイルの最初に追加
+
 import { useState } from 'react';
 
 export default function Home() {
