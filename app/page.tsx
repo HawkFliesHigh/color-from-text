@@ -1,5 +1,3 @@
-// app/page.tsx
-
 "use client";
 
 import { useState } from 'react';
@@ -35,7 +33,7 @@ export default function Home() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ text }),
+        body: JSON.stringify({ text }), // ユーザー入力のテキストを送信
       });
 
       const data = await response.json();
