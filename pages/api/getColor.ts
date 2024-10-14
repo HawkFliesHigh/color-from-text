@@ -66,4 +66,3 @@ export default async function getColor(req: NextApiRequest, res: NextApiResponse
     res.status(500).json({ error: '色データの取得に失敗しました。' });
   }
 }
-
