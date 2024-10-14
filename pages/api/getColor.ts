@@ -26,6 +26,11 @@ export default async function getColor(req: NextApiRequest, res: NextApiResponse
     // ChatGPTからの応答を取得
     const responseText = completion.choices[0].message.content;
 
+    // 応答テキストがnullまたはundefinedでないかチェック
+    if (!responseText) {
+      throw new Error('Response text is null or undefined');
+    }
+
     // テキストの出力から色コードを抽出する関数
 	const parseColorsFromText = (text: string) => {
 	  const colorRegex = /#([0-9A-Fa-f]{6})/g; // 色コードを抽出するための正規表現
