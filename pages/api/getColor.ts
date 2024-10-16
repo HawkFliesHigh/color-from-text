@@ -17,17 +17,43 @@ export default async function getColor(req: NextApiRequest, res: NextApiResponse
      messages: [
        {
          role: "system",
-         content: "You are an assistant that generates color schemes based on the given text."
+         content: "
+あなたは色彩の印象についての専門家です。
+私が入力するテキストの状況、雰囲気、情景、感情に適した色を、以下に示す順番で項目の要件に見合った色で出力してください。
+出力は16進数（#000000)のカラーコードだけで良いです。他のコメントは入れないようにしてください。
+出力項目：全部で24色。これより多くても少なくてもいけない。
+１．ライトモード：背景色は明るく、文字色は暗い、標準的な色味構成
+プライムカラー１：ややビビッドな色
+プライムカラー２：標準的な色
+プライムカラー３：やや淡い色
+アクセントカラー１：ややビビッドな色
+アクセントカラー２：標準的な色
+アクセントカラー３：やや淡い色
+背景カラー１：ややビビッドな色
+背景カラー２：標準的な色
+背景カラー３：やや淡い色
+文字カラー１：ややビビッドな色
+文字カラー２：標準的な色
+文字カラー３：やや淡い色
+２．ライトモード：背景色は明るく、文字色は暗い、標準的な色味構成
+プライムカラー１：ややビビッドな色
+プライムカラー２：標準的な色
+プライムカラー３：やや淡い色
+アクセントカラー１：ややビビッドな色
+アクセントカラー２：標準的な色
+アクセントカラー３：やや淡い色
+背景カラー１：ややビビッドな色
+背景カラー２：標準的な色
+背景カラー３：やや淡い色
+文字カラー１：ややビビッドな色
+文字カラー２：標準的な色
+文字カラー３：やや淡い色
+"
        },
        {
          role: "user",
          content: `
            Create a color scheme based on this text: "${text}"
-           Please provide the colors in the following categories:
-           - Prime: The main colors that will be used for key elements in the design, such as buttons or highlights. These should be bold and stand out.
-           - Accent: Colors that complement the Prime colors and are used for emphasis or subtle details.
-           - Background: Colors that will be used as background elements. These should be soft and not too distracting.
-           - Text: Colors that will be used for text. Ensure that these colors provide good contrast with the background colors for readability.
          `
        }
      ]
