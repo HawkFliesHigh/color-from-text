@@ -1,9 +1,38 @@
+// pages/api/getColor.ts
+
 import type { NextApiRequest, NextApiResponse } from 'next';
 import OpenAI from 'openai';
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY, // APIキーを環境変数から取得
 });
+
+interface ColorCategory {
+  strong: string;
+  standard: string;
+  soft: string;
+}
+
+interface ColorMode {
+  Prime: ColorCategory;
+  Accent: ColorCategory;
+  background: ColorCategory;
+  text: ColorCategory;
+}
+
+interface ColorData {
+  Light: ColorMode;
+  Dark: ColorMode;
+}
+
+interface OpenAIErrorResponse {
+  error: {
+    message: string;
+    type: string;
+    param?: string;
+    code?: string;
+  };
+}
 
 export default async function getColor(req: NextApiRequest, res: NextApiResponse) {
   const { text } = req.body;
@@ -33,14 +62,75 @@ export default async function getColor(req: NextApiRequest, res: NextApiResponse
                   },
                   required: ["strong", "standard", "soft"],
                 },
-                // 他のカテゴリも同様に定義
+                Accent: {
+                  type: "object",
+                  properties: {
+                    strong: { type: "string" },
+                    standard: { type: "string" },
+                    soft: { type: "string" },
+                  },
+                  required: ["strong", "standard", "soft"],
+                },
+                background: {
+                  type: "object",
+                  properties: {
+                    strong: { type: "string" },
+                    standard: { type: "string" },
+                    soft: { type: "string" },
+                  },
+                  required: ["strong", "standard", "soft"],
+                },
+                text: {
+                  type: "object",
+                  properties: {
+                    strong: { type: "string" },
+                    standard: { type: "string" },
+                    soft: { type: "string" },
+                  },
+                  required: ["strong", "standard", "soft"],
+                },
               },
               required: ["Prime", "Accent", "background", "text"],
             },
             Dark: {
               type: "object",
               properties: {
-                // Lightと同様の定義
+                Prime: {
+                  type: "object",
+                  properties: {
+                    strong: { type: "string" },
+                    standard: { type: "string" },
+                    soft: { type: "string" },
+                  },
+                  required: ["strong", "standard", "soft"],
+                },
+                Accent: {
+                  type: "object",
+                  properties: {
+                    strong: { type: "string" },
+                    standard: { type: "string" },
+                    soft: { type: "string" },
+                  },
+                  required: ["strong", "standard", "soft"],
+                },
+                background: {
+                  type: "object",
+                  properties: {
+                    strong: { type: "string" },
+                    standard: { type: "string" },
+                    soft: { type: "string" },
+                  },
+                  required: ["strong", "standard", "soft"],
+                },
+                text: {
+                  type: "object",
+                  properties: {
+                    strong: { type: "string" },
+                    standard: { type: "string" },
+                    soft: { type: "string" },
+                  },
+                  required: ["strong", "standard", "soft"],
+                },
               },
               required: ["Prime", "Accent", "background", "text"],
             },
@@ -67,7 +157,7 @@ export default async function getColor(req: NextApiRequest, res: NextApiResponse
     const responseMessage = completion.choices[0].message;
 
     if (responseMessage?.function_call?.arguments) {
-      const colorScheme = JSON.parse(responseMessage.function_call.arguments);
+      const colorScheme: ColorData = JSON.parse(responseMessage.function_call.arguments);
       // パースされた色スキームをJSON形式で返す
       res.status(200).json({ color: colorScheme });
     } else {
@@ -77,29 +167,35 @@ export default async function getColor(req: NextApiRequest, res: NextApiResponse
         openaiResponse: responseMessage,
       });
     }
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error during OpenAI API call:', error);
 
-    // OpenAI APIからのエラーを詳細にチェック
-    if (error.response) {
-      const status = error.response.status;
-      const data = error.response.data;
+    if (error instanceof Error) {
+      // OpenAIのエラーレスポンスがある場合
+      if ('response' in error && error.response) {
+        const err = error as any; // 具体的な型が不明な場合は慎重に扱う
+        const status = err.response?.status;
+        const data = err.response?.data as OpenAIErrorResponse;
 
-      if (status === 401) {
-        // 認証エラー：APIキーが無効
-        res.status(500).json({ error: 'OpenAI APIキーが無効です。APIキーを確認してください。' });
-      } else if (status === 429) {
-        // リクエスト制限超過
-        res.status(500).json({ error: 'OpenAI APIのリクエスト制限を超えました。しばらくしてから再試行してください。' });
-      } else if (status === 403) {
-        // アクセス拒否：課金制限の可能性
-        res.status(500).json({ error: 'OpenAI APIへのアクセスが拒否されました。課金状況を確認してください。' });
+        if (status === 401) {
+          // 認証エラー：APIキーが無効
+          res.status(500).json({ error: 'OpenAI APIキーが無効です。APIキーを確認してください。' });
+        } else if (status === 429) {
+          // リクエスト制限超過
+          res.status(500).json({ error: 'OpenAI APIのリクエスト制限を超えました。しばらくしてから再試行してください。' });
+        } else if (status === 403) {
+          // アクセス拒否：課金制限の可能性
+          res.status(500).json({ error: 'OpenAI APIへのアクセスが拒否されました。課金状況を確認してください。' });
+        } else {
+          // その他のエラー
+          res.status(500).json({ error: `OpenAI APIエラー: ${data?.error?.message || '不明なエラー'}` });
+        }
       } else {
-        // その他のエラー
-        res.status(500).json({ error: `OpenAI APIエラー: ${data.error.message}` });
+        // OpenAI以外のエラー
+        res.status(500).json({ error: '色データの取得に失敗しました。' });
       }
     } else {
-      // OpenAI以外のエラー
+      // エラーがErrorインスタンスでない場合
       res.status(500).json({ error: '色データの取得に失敗しました。' });
     }
   }

@@ -1,3 +1,5 @@
+// app/page.tsx または pages/index.tsx
+
 "use client";
 
 import { useState } from 'react';
@@ -21,12 +23,17 @@ interface ColorData {
   Dark: ColorMode;
 }
 
+interface OpenAIResponse {
+  // 必要に応じて具体的なフィールドを追加
+  [key: string]: any;
+}
+
 export default function Home() {
   const [text, setText] = useState('');
   const [colorData, setColorData] = useState<ColorData | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [openaiResponse, setOpenaiResponse] = useState<any>(null); // OpenAIのレスポンスを保持
+  const [openaiResponse, setOpenaiResponse] = useState<OpenAIResponse | null>(null); // 型を明確化
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
