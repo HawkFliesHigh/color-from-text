@@ -49,8 +49,10 @@ LightモードとDarkモードの両方について、以下の正確なJSON構�
     // ChatGPTからの応答を取得
     const responseText = completion.choices[0].message.content;
 
-    // 応答テキストをログに出力
-    console.log('OpenAIからのレスポンス:', responseText);
+    // 応答テキストがnullまたはundefinedでないかチェック
+    if (!responseText) {
+      throw new Error('Response text is null or undefined');
+    }
 
     // レスポンスからJSON部分を抽出
     const jsonMatch = responseText.match(/\{[\s\S]*\}/);
