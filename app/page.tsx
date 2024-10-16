@@ -49,7 +49,7 @@ export default function Home() {
     } finally {
       setLoading(false);
     }
-  }
+  };
 
   return (
     <div style={{ padding: '2rem' }}>
@@ -77,35 +77,61 @@ export default function Home() {
       {colorData && (
         <div style={{ marginTop: '2rem' }}>
           <h2>生成された色:</h2>
-		// LightとDarkの2つのカラーセットを用意
-		{['Light', 'Dark'].map((theme) => (
-		  <table key={theme}>
-			<thead>
-			  <tr>
-				<th>{theme}</th>
-				<th>Strong</th>
-				<th>Standard</th>
-				<th>Soft</th>
-			  </tr>
-			</thead>
-			<tbody>
-			  {['Prime', 'Accent', 'background', 'text'].map((category) => (
-				<tr key={category}>
-				  <td>{category}</td>
-				  {/* LightまたはDarkテーマに応じて色データを切り替え */}
-				  <td style={{ backgroundColor: colorData[theme]?.[category as keyof ColorData]?.strong || '#ffffff' }}>
-					{colorData[theme]?.[category as keyof ColorData]?.strong || 'N/A'}
-				  </td>
-				  <td style={{ backgroundColor: colorData[theme]?.[category as keyof ColorData]?.standard || '#ffffff' }}>
-					{colorData[theme]?.[category as keyof ColorData]?.standard || 'N/A'}
-				  </td>
-				  <td style={{ backgroundColor: colorData[theme]?.[category as keyof ColorData]?.soft || '#ffffff' }}>
-					{colorData[theme]?.[category as keyof ColorData]?.soft || 'N/A'}
-				  </td>
-				</tr>
-			  ))}
-			</tbody>
-		  </table>
+          <table border={1} cellPadding={10} style={{ width: '100%', borderCollapse: 'collapse' }}>
+            <thead>
+              <tr>
+                <th>カテゴリ</th>
+                <th>強い印象</th>
+                <th>標準</th>
+                <th>柔らかい印象</th>
+              </tr>
+            </thead>
+            <tbody>
+              {['Prime', 'Accent', 'background', 'text'].map((category) => (
+                <tr key={category}>
+                  <td>{category}</td>
+                  <td style={{ backgroundColor: colorData[category as keyof ColorData]?.strong || '#ffffff' }}>
+                    {colorData[category as keyof ColorData]?.strong || 'N/A'}
+                  </td>
+                  <td style={{ backgroundColor: colorData[category as keyof ColorData]?.standard || '#ffffff' }}>
+                    {colorData[category as keyof ColorData]?.standard || 'N/A'}
+                  </td>
+                  <td style={{ backgroundColor: colorData[category as keyof ColorData]?.soft || '#ffffff' }}>
+                    {colorData[category as keyof ColorData]?.soft || 'N/A'}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <div style={{ marginTop: '2rem' }}>
+          <h2>生成された色:</h2>
+          <table border={1} cellPadding={10} style={{ width: '100%', borderCollapse: 'collapse' }}>
+            <thead>
+              <tr>
+                <th>カテゴリ</th>
+                <th>強い印象</th>
+                <th>標準</th>
+                <th>柔らかい印象</th>
+              </tr>
+            </thead>
+            <tbody>
+              {['Prime', 'Accent', 'background', 'text'].map((category) => (
+                <tr key={category}>
+                  <td>{category}</td>
+                  <td style={{ backgroundColor: colorData[category as keyof ColorData]?.strong || '#ffffff' }}>
+                    {colorData[category as keyof ColorData]?.strong || 'N/A'}
+                  </td>
+                  <td style={{ backgroundColor: colorData[category as keyof ColorData]?.standard || '#ffffff' }}>
+                    {colorData[category as keyof ColorData]?.standard || 'N/A'}
+                  </td>
+                  <td style={{ backgroundColor: colorData[category as keyof ColorData]?.soft || '#ffffff' }}>
+                    {colorData[category as keyof ColorData]?.soft || 'N/A'}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       )}
     </div>
