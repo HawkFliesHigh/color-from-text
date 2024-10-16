@@ -38,6 +38,7 @@ export default async function getColor(req: NextApiRequest, res: NextApiResponse
 
 	  // パースした色コードを使って色スキームを構築
 	  return {
+Light: {
 		Prime: {
 		  strong: matches[0] || "#FF4500",
 		  standard: matches[1] || "#FFA500",
@@ -58,6 +59,29 @@ export default async function getColor(req: NextApiRequest, res: NextApiResponse
 		  standard: matches[10] || "#696969",
 		  soft: matches[11] || "#D3D3D3"
 		}
+},
+Dark: {
+		Prime: {
+		  strong: matches[0] || "#FF4500",
+		  standard: matches[1] || "#FFA500",
+		  soft: matches[2] || "#FFD700"
+		},
+		Accent: {
+		  strong: matches[3] || "#8B0000",
+		  standard: matches[4] || "#FF6347",
+		  soft: matches[5] || "#FFE4B5"
+		},
+		background: {
+		  strong: matches[6] || "#FF8C00",
+		  standard: matches[7] || "#F0E68C",
+		  soft: matches[8] || "#FFFACD"
+		},
+		text: {
+		  strong: matches[9] || "#2F4F4F",
+		  standard: matches[10] || "#696969",
+		  soft: matches[11] || "#D3D3D3"
+		}
+}
 	  };
 	};
 
