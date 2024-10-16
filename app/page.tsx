@@ -10,10 +10,18 @@ interface ColorCategory {
 }
 
 interface ColorData {
-  Prime: ColorCategory;
-  Accent: ColorCategory;
-  background: ColorCategory;
-  text: ColorCategory;
+  light: {
+    Prime: ColorCategory;
+    Accent: ColorCategory;
+    background: ColorCategory;
+    text: ColorCategory;
+  };
+  dark: {
+    Prime: ColorCategory;
+    Accent: ColorCategory;
+    background: ColorCategory;
+    text: ColorCategory;
+  };
 }
 
 export default function Home() {
@@ -76,7 +84,7 @@ export default function Home() {
       {/* 出力欄 */}
       {colorData && (
         <div style={{ marginTop: '2rem' }}>
-          <h2>生成された色:</h2>
+          <h2>ライトモードの生成された色:</h2>
           <table border={1} cellPadding={10} style={{ width: '100%', borderCollapse: 'collapse' }}>
             <thead>
               <tr>
@@ -90,14 +98,42 @@ export default function Home() {
               {['Prime', 'Accent', 'background', 'text'].map((category) => (
                 <tr key={category}>
                   <td>{category}</td>
-                  <td style={{ backgroundColor: colorData[category as keyof ColorData]?.strong || '#ffffff' }}>
-                    {colorData[category as keyof ColorData]?.strong || 'N/A'}
+                  <td style={{ backgroundColor: colorData.light[category as keyof ColorData['light']]?.strong || '#ffffff' }}>
+                    {colorData.light[category as keyof ColorData['light']]?.strong || 'N/A'}
                   </td>
-                  <td style={{ backgroundColor: colorData[category as keyof ColorData]?.standard || '#ffffff' }}>
-                    {colorData[category as keyof ColorData]?.standard || 'N/A'}
+                  <td style={{ backgroundColor: colorData.light[category as keyof ColorData['light']]?.standard || '#ffffff' }}>
+                    {colorData.light[category as keyof ColorData['light']]?.standard || 'N/A'}
                   </td>
-                  <td style={{ backgroundColor: colorData[category as keyof ColorData]?.soft || '#ffffff' }}>
-                    {colorData[category as keyof ColorData]?.soft || 'N/A'}
+                  <td style={{ backgroundColor: colorData.light[category as keyof ColorData['light']]?.soft || '#ffffff' }}>
+                    {colorData.light[category as keyof ColorData['light']]?.soft || 'N/A'}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+
+          <h2>ダークモードの生成された色:</h2>
+          <table border={1} cellPadding={10} style={{ width: '100%', borderCollapse: 'collapse' }}>
+            <thead>
+              <tr>
+                <th>カテゴリ</th>
+                <th>強い印象</th>
+                <th>標準</th>
+                <th>柔らかい印象</th>
+              </tr>
+            </thead>
+            <tbody>
+              {['Prime', 'Accent', 'background', 'text'].map((category) => (
+                <tr key={category}>
+                  <td>{category}</td>
+                  <td style={{ backgroundColor: colorData.dark[category as keyof ColorData['dark']]?.strong || '#ffffff' }}>
+                    {colorData.dark[category as keyof ColorData['dark']]?.strong || 'N/A'}
+                  </td>
+                  <td style={{ backgroundColor: colorData.dark[category as keyof ColorData['dark']]?.standard || '#ffffff' }}>
+                    {colorData.dark[category as keyof ColorData['dark']]?.standard || 'N/A'}
+                  </td>
+                  <td style={{ backgroundColor: colorData.dark[category as keyof ColorData['dark']]?.soft || '#ffffff' }}>
+                    {colorData.dark[category as keyof ColorData['dark']]?.soft || 'N/A'}
                   </td>
                 </tr>
               ))}
@@ -108,4 +144,3 @@ export default function Home() {
     </div>
   );
 }
-
