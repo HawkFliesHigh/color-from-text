@@ -49,7 +49,7 @@ export default function Home() {
     } finally {
       setLoading(false);
     }
-  };
+  }
 
   return (
     <div style={{ padding: '2rem' }}>
