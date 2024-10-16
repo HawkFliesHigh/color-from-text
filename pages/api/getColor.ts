@@ -19,7 +19,8 @@ export default async function getColor(req: NextApiRequest, res: NextApiResponse
           role: "system",
           content: `
 あなたは指定されたテキストに基づいて色スキームを生成するアシスタントです。
-LightモードとDarkモードの両方について、以下の構造で色スキームを作成してください：
+LightモードとDarkモードの両方について、以下の正確なJSON構造で色スキームを作成してください：
+\`\`\`json
 {
   "Light": {
     "Prime": { "strong": "#hex", "standard": "#hex", "soft": "#hex" },
@@ -34,7 +35,8 @@ LightモードとDarkモードの両方について、以下の構造で色ス�
     "text": { "strong": "#hex", "standard": "#hex", "soft": "#hex" }
   }
 }
-追加のテキストなしで、結果をJSON形式で出力してください。
+\`\`\`
+追加の説明やテキストは一切含めず、結果を**純粋なJSON形式**で出力してください。
           `
         },
         {
@@ -47,15 +49,21 @@ LightモードとDarkモードの両方について、以下の構造で色ス�
     // ChatGPTからの応答を取得
     const responseText = completion.choices[0].message.content;
 
-    // 応答テキストがnullまたはundefinedでないかチェック
-    if (!responseText) {
-      throw new Error('Response text is null or undefined');
+    // 応答テキストをログに出力
+    console.log('OpenAIからのレスポンス:', responseText);
+
+    // レスポンスからJSON部分を抽出
+    const jsonMatch = responseText.match(/\{[\s\S]*\}/);
+    if (!jsonMatch) {
+      throw new Error('レスポンスからJSONを抽出できませんでした。');
     }
+
+    const jsonString = jsonMatch[0];
 
     // 応答テキストをJSONとしてパース
     let colorScheme;
     try {
-      colorScheme = JSON.parse(responseText);
+      colorScheme = JSON.parse(jsonString);
     } catch (parseError) {
       console.error('Failed to parse response as JSON:', parseError);
       throw new Error('レスポンスのパースに失敗しました。');
