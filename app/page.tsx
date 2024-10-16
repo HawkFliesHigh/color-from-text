@@ -116,7 +116,7 @@ export default function Home() {
               </tr>
             </thead>
             <tbody>
-              {['Prime', 'Accent', 'background', 'text'].map((category) => (
+              {['PrimeD', 'AccentD', 'backgroundD', 'textD'].map((category) => (
                 <tr key={category}>
                   <td>{category}</td>
                   <td style={{ backgroundColor: colorData[category as keyof ColorData]?.strong || '#ffffff' }}>
