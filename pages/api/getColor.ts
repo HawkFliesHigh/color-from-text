@@ -12,16 +12,26 @@ export default async function getColor(req: NextApiRequest, res: NextApiResponse
 
   try {
     // OpenAI APIにリクエストを送信し、指定した文章に基づいた色スキームを生成
-    const completion = await openai.chat.completions.create({
-      model: "gpt-4",
-      messages: [
-        { role: "system", content: "You are an assistant that generates color schemes based on the given text." },
-        {
-          role: "user",
-          content: `Create a color scheme based on this text: "${text}"` // ユーザーが入力したテキスト
-        }
-      ]
-    });
+   const completion = await openai.chat.completions.create({
+     model: "gpt-4",
+     messages: [
+       {
+         role: "system",
+         content: "You are an assistant that generates color schemes based on the given text."
+       },
+       {
+         role: "user",
+         content: `
+           Create a color scheme based on this text: "${text}"
+           Please provide the colors in the following categories:
+           - Prime: The main colors that will be used for key elements in the design, such as buttons or highlights. These should be bold and stand out.
+           - Accent: Colors that complement the Prime colors and are used for emphasis or subtle details.
+           - Background: Colors that will be used as background elements. These should be soft and not too distracting.
+           - Text: Colors that will be used for text. Ensure that these colors provide good contrast with the background colors for readability.
+         `
+       }
+     ]
+   });
 
     // ChatGPTからの応答を取得
     const responseText = completion.choices[0].message.content;
