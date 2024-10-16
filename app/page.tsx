@@ -101,6 +101,20 @@ export default function Home() {
                   </td>
                 </tr>
               ))}
+              {['Prime', 'Accent', 'background', 'text'].map((category) => (
+                <tr key={category}>
+                  <td>{category}</td>
+                  <td style={{ backgroundColor: colorData[category as keyof ColorData]?.strong || '#ffffff' }}>
+                    {colorData[category as keyof ColorData]?.strong || 'N/A'}
+                  </td>
+                  <td style={{ backgroundColor: colorData[category as keyof ColorData]?.standard || '#ffffff' }}>
+                    {colorData[category as keyof ColorData]?.standard || 'N/A'}
+                  </td>
+                  <td style={{ backgroundColor: colorData[category as keyof ColorData]?.soft || '#ffffff' }}>
+                    {colorData[category as keyof ColorData]?.soft || 'N/A'}
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
