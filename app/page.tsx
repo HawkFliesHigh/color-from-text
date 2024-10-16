@@ -26,11 +26,13 @@ export default function Home() {
   const [colorData, setColorData] = useState<ColorData | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [openaiResponse, setOpenaiResponse] = useState<any>(null); // OpenAIのレスポンスを保持
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError('');
+    setOpenaiResponse(null);
 
     try {
       const response = await fetch('/api/getColor', {
@@ -43,10 +45,16 @@ export default function Home() {
 
       const data = await response.json();
 
-      if (data && data.color) {
-        setColorData(data.color as ColorData);
+      if (response.ok) {
+        if (data && data.color) {
+          setColorData(data.color as ColorData);
+        } else {
+          setError('色データを取得できませんでした');
+          setOpenaiResponse(data.openaiResponse || null);
+        }
       } else {
-        setError('色データを取得できませんでした');
+        setError(data.error || '色データの取得に失敗しました');
+        setOpenaiResponse(data.openaiResponse || null);
       }
     } catch (error) {
       console.error('Error fetching color data:', error);
@@ -77,6 +85,14 @@ export default function Home() {
 
       {/* エラーメッセージ */}
       {error && <p style={{ color: 'red' }}>{error}</p>}
+
+      {/* OpenAIからのレスポンスを表示 */}
+      {openaiResponse && (
+        <div style={{ marginTop: '2rem' }}>
+          <h2>OpenAIからのレスポンス:</h2>
+          <pre>{JSON.stringify(openaiResponse, null, 2)}</pre>
+        </div>
+      )}
 
       {/* 出力欄 */}
       {colorData && (
