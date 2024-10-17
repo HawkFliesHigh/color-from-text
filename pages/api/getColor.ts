@@ -42,48 +42,51 @@ export default async function getColor(req: NextApiRequest, res: NextApiResponse
 	  const colorRegex = /#([0-9A-Fa-f]{6})/g; // 色コードを抽出するための正規表現
 	  const matches = text.match(colorRegex) || []; // match()を使う
 
-	  // パースした色コードを使って色スキームを構築
-	  return {
-		Prime: {
-		  strong: matches[0] || "#FF4500",
-		  standard: matches[1] || "#FFA500",
-		  soft: matches[2] || "#FFD700"
-		},
-		Accent: {
-		  strong: matches[3] || "#8B0000",
-		  standard: matches[4] || "#FF6347",
-		  soft: matches[5] || "#FFE4B5"
-		},
-		background: {
-		  strong: matches[6] || "#FF8C00",
-		  standard: matches[7] || "#F0E68C",
-		  soft: matches[8] || "#FFFACD"
-		},
-		text: {
-		  strong: matches[9] || "#2F4F4F",
-		  standard: matches[10] || "#696969",
-		  soft: matches[11] || "#D3D3D3"
-		},
-		PrimeD: {
-		  strong: matches[0] || "#FF4500",
-		  standard: matches[1] || "#FFA500",
-		  soft: matches[2] || "#FFD700"
-		},
-		AccentD: {
-		  strong: matches[3] || "#8B0000",
-		  standard: matches[4] || "#FF6347",
-		  soft: matches[5] || "#FFE4B5"
-		},
-		backgroundD: {
-		  strong: matches[6] || "#FF8C00",
-		  standard: matches[7] || "#F0E68C",
-		  soft: matches[8] || "#FFFACD"
-		},
-		textD: {
-		  strong: matches[9] || "#2F4F4F",
-		  standard: matches[10] || "#696969",
-		  soft: matches[11] || "#D3D3D3"
-		}	  };
+	// パースした色コードを使って色スキームを構築
+	return {
+	  // Light スキーム
+	  Light_Prime: {
+		strong: matches[0] || "#FF4500",
+		standard: matches[1] || "#FFA500",
+		soft: matches[2] || "#FFD700"
+	  },
+	  Light_Accent: {
+		strong: matches[3] || "#8B0000",
+		standard: matches[4] || "#FF6347",
+		soft: matches[5] || "#FFE4B5"
+	  },
+	  Light_background: {
+		strong: matches[6] || "#FF8C00",
+		standard: matches[7] || "#F0E68C",
+		soft: matches[8] || "#FFFACD"
+	  },
+	  Light_text: {
+		strong: matches[9] || "#2F4F4F",
+		standard: matches[10] || "#696969",
+		soft: matches[11] || "#D3D3D3"
+	  },
+
+	  // Dark スキーム
+	  Dark_Prime: {
+		strong: matches[0] || "#FF4500",
+		standard: matches[1] || "#FFA500",
+		soft: matches[2] || "#FFD700"
+	  },
+	  Dark_Accent: {
+		strong: matches[3] || "#8B0000",
+		standard: matches[4] || "#FF6347",
+		soft: matches[5] || "#FFE4B5"
+	  },
+	  Dark_background: {
+		strong: matches[6] || "#FF8C00",
+		standard: matches[7] || "#F0E68C",
+		soft: matches[8] || "#FFFACD"
+	  },
+	  Dark_text: {
+		strong: matches[9] || "#2F4F4F",
+		standard: matches[10] || "#696969",
+		soft: matches[11] || "#D3D3D3"
+	  }
 	};
 
     // 応答テキストから色スキームをパース
