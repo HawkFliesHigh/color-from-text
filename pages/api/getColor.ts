@@ -87,7 +87,7 @@ return {
 	standard: matches[10] || "#696969",
 	soft: matches[11] || "#D3D3D3"
   }
-};
+}
 
     // 応答テキストから色スキームをパース
     const colorScheme = parseColorsFromText(responseText);
