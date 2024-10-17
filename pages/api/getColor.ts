@@ -13,7 +13,7 @@ export default async function getColor(req: NextApiRequest, res: NextApiResponse
   try {
     // OpenAI APIにリクエストを送信し、指定した文章に基づいた色スキームを生成
     const completion = await openai.chat.completions.create({
-      model: "gpt-4",
+      model: "gpt-4o-mini",
       messages: [
         {
           role: "system",
