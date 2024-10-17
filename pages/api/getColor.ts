@@ -18,7 +18,7 @@ export default async function getColor(req: NextApiRequest, res: NextApiResponse
         {
           role: "system",
           content:
-            "You are an expert in color perception. Based on the text I provide, output colors suitable for the situation, mood, setting, and emotion in the specified order. Output only hex color codes (#000000). Do not include any other comments. Match the colors for both light mode and dark mode. Light mode: light background, dark text. Dark mode: dark background, light text. Output exactly 24 colors, no more, no less. 1. Light mode: bright background, dark text. Prime Color 1: vivid, Prime Color 2: standard, Prime Color 3: pale, Accent Color 1: vivid, Accent Color 2: standard, Accent Color 3: pale, Background Color 1: vivid, Background Color 2: standard, Background Color 3: pale, Text Color 1: vivid, Text Color 2: standard, Text Color 3: pale. 2. Dark mode: dark background, light text. Prime Color 1: vivid, Prime Color 2: standard, Prime Color 3: pale, Accent Color 1: vivid, Accent Color 2: standard, Accent Color 3: pale, Background Color 1: vivid, Background Color 2: standard, Background Color 3: pale, Text Color 1: vivid, Text Color 2: standard, Text Color 3: pale."
+            "あなたは、提供されたテキストを分析し、テキストのトーン、テーマ、雰囲気に基づいて適切な配色 (プライマリ色、アクセント色、背景色、テキスト色) を生成することに特化しています。また、各色に 3 段階の色合い (明るい、中間、暗い) を提案し、さまざまな用途に使用できるバランスの取れたパレットを提供します。出力は16進数（#000000)のカラーコードだけであり、他のコメントは一切出力しません。回答は創造的でありながら視覚的なデザインの原則に基づいている必要があり、提案された配色が調和し、提供されたテキストのコンテキストに適している必要があります。"
         },
         {
           role: "user",
@@ -44,48 +44,27 @@ export default async function getColor(req: NextApiRequest, res: NextApiResponse
 
       // パースした色コードを使って色スキームを構築
       return {
-        // Light スキーム
-        Light_Prime: {
-          strong: matches[0] || "#FF6347", // ビビッドな赤系
-          standard: matches[1] || "#FFA07A", // 標準的なサーモン
-          soft: matches[2] || "#FFDAB9" // やや淡いピーチパフ
-        },
-        Light_Accent: {
-          strong: matches[3] || "#4682B4", // ビビッドなスチールブルー
-          standard: matches[4] || "#87CEFA", // 標準的なライトスカイブルー
-          soft: matches[5] || "#B0E0E6" // やや淡いパウダーブルー
-        },
-        Light_background: {
-          strong: matches[6] || "#FFFFFF", // 明るい白
-          standard: matches[7] || "#F8F8FF", // 標準的なゴーストホワイト
-          soft: matches[8] || "#F5F5F5" // やや淡いライトグレー
-        },
-        Light_text: {
-          strong: matches[9] || "#000000", // 強い黒
-          standard: matches[10] || "#4B4B4B", // 標準的なチャコールグレー
-          soft: matches[11] || "#696969" // ソフトなダークグレー
-        },
-
-        // Dark スキーム
-        Dark_Prime: {
-          strong: matches[12] || "#FF4500", // 強いオレンジレッド
-          standard: matches[13] || "#FFA500", // 標準的なオレンジ
-          soft: matches[14] || "#FFD700" // 淡いゴールド
-        },
-        Dark_Accent: {
-          strong: matches[15] || "#1E90FF", // ビビッドなドッジャーブルー
-          standard: matches[16] || "#4682B4", // 標準的なスチールブルー
-          soft: matches[17] || "#87CEFA" // ソフトなライトスカイブルー
-        },
-        Dark_background: {
-          strong: matches[18] || "#121212", // より暗い背景色 (非常に暗いチャコール)
-          standard: matches[19] || "#1C1C1C", // 標準的なブラックチャコール
-          soft: matches[20] || "#000000" // ブラック
-        },
-        Dark_text: {
-          strong: matches[21] || "#E0E0E0", // 明るすぎない白 (視認性を保ちながら眩しくない)
-          standard: matches[22] || "#B0B0B0", // 標準的なライトグレー (テキスト)
-          soft: matches[23] || "#8A8A8A" // ソフトなダークグレー (目に優しい色)
+        {
+          "Prime": {
+            "light": matches[0] || "#FFA07A", // 明るいライトサーモン
+            "medium": matches[1] || "#FF6347", // 中間の赤系
+            "dark": matches[2] || "#8B0000" // 暗いダークレッド
+          },
+          "Accent": {
+            "light": matches[3] || "#87CEFA", // 明るいライトスカイブルー
+            "medium": matches[4] || "#4682B4", // 中間のスチールブルー
+            "dark": matches[5] || "#0B3D91" // 暗い濃いブルー
+          },
+          "Background": {
+            "light": matches[6] || "#F8F8FF", // 明るいゴーストホワイト
+            "medium": matches[7] || "#C0C0C0", // 中間のシルバーグレー
+            "dark": matches[8] || "#2F4F4F" // 暗いスレートグレー
+          },
+          "Text": {
+            "light": matches[9] || "#D3D3D3", // 明るいライトグレー
+            "medium": matches[10] || "#4B4B4B", // 中間のチャコールグレー
+            "dark": matches[11] || "#000000" // 暗い黒
+          }
         }
       };
     };
@@ -100,3 +79,6 @@ export default async function getColor(req: NextApiRequest, res: NextApiResponse
     res.status(500).json({ error: '色データの取得に失敗しました。' });
   }
 }
+
+
+

@@ -4,20 +4,16 @@ import { useState } from 'react';
 
 // 色データの型定義
 interface ColorCategory {
-  strong: string;
-  standard: string;
-  soft: string;
+  light: string;
+  medium: string;
+  dark: string;
 }
 
 interface ColorData {
-  Light_Prime: ColorCategory;
-  Light_Accent: ColorCategory;
-  Light_background: ColorCategory;
-  Light_text: ColorCategory;
-  Dark_Prime: ColorCategory;
-  Dark_Accent: ColorCategory;
-  Dark_background: ColorCategory;
-  Dark_text: ColorCategory;
+  Prime: ColorCategory;
+  Accent: ColorCategory;
+  Background: ColorCategory;
+  Text: ColorCategory;
 }
 
 export default function Home() {
@@ -82,58 +78,28 @@ export default function Home() {
         <div style={{ marginTop: '2rem' }}>
           <h2>生成された色:</h2>
 
-          {/* Light スキームのテーブル */}
-          <h3>Light スキーム:</h3>
+          {/* 色スキームのテーブル */}
           <table border={1} cellPadding={10} style={{ width: '100%', borderCollapse: 'collapse' }}>
             <thead>
               <tr>
                 <th>カテゴリ</th>
-                <th>強い印象</th>
-                <th>標準</th>
-                <th>柔らかい印象</th>
+                <th>明るい</th>
+                <th>中間</th>
+                <th>暗い</th>
               </tr>
             </thead>
             <tbody>
-              {['Light_Prime', 'Light_Accent', 'Light_background', 'Light_text'].map((category) => (
+              {['Prime', 'Accent', 'Background', 'Text'].map((category) => (
                 <tr key={category}>
                   <td>{category}</td>
-                  <td style={{ backgroundColor: colorData[category as keyof ColorData]?.strong || '#ffffff' }}>
-                    {colorData[category as keyof ColorData]?.strong || 'N/A'}
+                  <td style={{ backgroundColor: colorData[category as keyof ColorData]?.light || '#ffffff' }}>
+                    {colorData[category as keyof ColorData]?.light || 'N/A'}
                   </td>
-                  <td style={{ backgroundColor: colorData[category as keyof ColorData]?.standard || '#ffffff' }}>
-                    {colorData[category as keyof ColorData]?.standard || 'N/A'}
+                  <td style={{ backgroundColor: colorData[category as keyof ColorData]?.medium || '#ffffff' }}>
+                    {colorData[category as keyof ColorData]?.medium || 'N/A'}
                   </td>
-                  <td style={{ backgroundColor: colorData[category as keyof ColorData]?.soft || '#ffffff' }}>
-                    {colorData[category as keyof ColorData]?.soft || 'N/A'}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-
-          {/* Dark スキームのテーブル */}
-          <h3>Dark スキーム:</h3>
-          <table border={1} cellPadding={10} style={{ width: '100%', borderCollapse: 'collapse' }}>
-            <thead>
-              <tr>
-                <th>カテゴリ</th>
-                <th>強い印象</th>
-                <th>標準</th>
-                <th>柔らかい印象</th>
-              </tr>
-            </thead>
-            <tbody>
-              {['Dark_Prime', 'Dark_Accent', 'Dark_background', 'Dark_text'].map((category) => (
-                <tr key={category}>
-                  <td>{category}</td>
-                  <td style={{ backgroundColor: colorData[category as keyof ColorData]?.strong || '#ffffff' }}>
-                    {colorData[category as keyof ColorData]?.strong || 'N/A'}
-                  </td>
-                  <td style={{ backgroundColor: colorData[category as keyof ColorData]?.standard || '#ffffff' }}>
-                    {colorData[category as keyof ColorData]?.standard || 'N/A'}
-                  </td>
-                  <td style={{ backgroundColor: colorData[category as keyof ColorData]?.soft || '#ffffff' }}>
-                    {colorData[category as keyof ColorData]?.soft || 'N/A'}
+                  <td style={{ backgroundColor: colorData[category as keyof ColorData]?.dark || '#ffffff' }}>
+                    {colorData[category as keyof ColorData]?.dark || 'N/A'}
                   </td>
                 </tr>
               ))}
