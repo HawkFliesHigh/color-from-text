@@ -10,20 +10,19 @@ interface ColorCategory {
 }
 
 interface ColorData {
-  Prime: ColorCategory;
-  Accent: ColorCategory;
-  background: ColorCategory;
-  text: ColorCategory;
-}
-
-interface ColorMode {
-  Light: ColorData;
-  Dark: ColorData;
+  Light_Prime: ColorCategory;
+  Light_Accent: ColorCategory;
+  Light_background: ColorCategory;
+  Light_text: ColorCategory;
+  Dark_Prime: ColorCategory;
+  Dark_Accent: ColorCategory;
+  Dark_background: ColorCategory;
+  Dark_text: ColorCategory;
 }
 
 export default function Home() {
   const [text, setText] = useState('');
-  const [colorMode, setColorMode] = useState<ColorMode | null>(null); // ColorMode型を使用
+  const [colorData, setColorData] = useState<ColorData | null>(null); // ColorData型を使用
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -44,7 +43,7 @@ export default function Home() {
       const data = await response.json();
 
       if (data && data.color) {
-        setColorMode(data.color as ColorMode); // ColorMode型として色データを取得
+        setColorData(data.color as ColorData); // ColorData型として色データを取得
       } else {
         setError('色データを取得できませんでした');
       }
@@ -79,7 +78,7 @@ export default function Home() {
       {error && <p style={{ color: 'red' }}>{error}</p>}
 
       {/* 出力欄 */}
-      {colorMode && (
+      {colorData && (
         <div style={{ marginTop: '2rem' }}>
           <h2>生成された色:</h2>
 
@@ -95,17 +94,17 @@ export default function Home() {
               </tr>
             </thead>
             <tbody>
-              {['Prime', 'Accent', 'background', 'text'].map((category) => (
+              {['Light_Prime', 'Light_Accent', 'Light_background', 'Light_text'].map((category) => (
                 <tr key={category}>
                   <td>{category}</td>
-                  <td style={{ backgroundColor: colorMode.Light[category as keyof ColorData]?.strong || '#ffffff' }}>
-                    {colorMode.Light[category as keyof ColorData]?.strong || 'N/A'}
+                  <td style={{ backgroundColor: colorData[category as keyof ColorData]?.strong || '#ffffff' }}>
+                    {colorData[category as keyof ColorData]?.strong || 'N/A'}
                   </td>
-                  <td style={{ backgroundColor: colorMode.Light[category as keyof ColorData]?.standard || '#ffffff' }}>
-                    {colorMode.Light[category as keyof ColorData]?.standard || 'N/A'}
+                  <td style={{ backgroundColor: colorData[category as keyof ColorData]?.standard || '#ffffff' }}>
+                    {colorData[category as keyof ColorData]?.standard || 'N/A'}
                   </td>
-                  <td style={{ backgroundColor: colorMode.Light[category as keyof ColorData]?.soft || '#ffffff' }}>
-                    {colorMode.Light[category as keyof ColorData]?.soft || 'N/A'}
+                  <td style={{ backgroundColor: colorData[category as keyof ColorData]?.soft || '#ffffff' }}>
+                    {colorData[category as keyof ColorData]?.soft || 'N/A'}
                   </td>
                 </tr>
               ))}
@@ -124,17 +123,17 @@ export default function Home() {
               </tr>
             </thead>
             <tbody>
-              {['Prime', 'Accent', 'background', 'text'].map((category) => (
+              {['Dark_Prime', 'Dark_Accent', 'Dark_background', 'Dark_text'].map((category) => (
                 <tr key={category}>
                   <td>{category}</td>
-                  <td style={{ backgroundColor: colorMode.Dark[category as keyof ColorData]?.strong || '#ffffff' }}>
-                    {colorMode.Dark[category as keyof ColorData]?.strong || 'N/A'}
+                  <td style={{ backgroundColor: colorData[category as keyof ColorData]?.strong || '#ffffff' }}>
+                    {colorData[category as keyof ColorData]?.strong || 'N/A'}
                   </td>
-                  <td style={{ backgroundColor: colorMode.Dark[category as keyof ColorData]?.standard || '#ffffff' }}>
-                    {colorMode.Dark[category as keyof ColorData]?.standard || 'N/A'}
+                  <td style={{ backgroundColor: colorData[category as keyof ColorData]?.standard || '#ffffff' }}>
+                    {colorData[category as keyof ColorData]?.standard || 'N/A'}
                   </td>
-                  <td style={{ backgroundColor: colorMode.Dark[category as keyof ColorData]?.soft || '#ffffff' }}>
-                    {colorMode.Dark[category as keyof ColorData]?.soft || 'N/A'}
+                  <td style={{ backgroundColor: colorData[category as keyof ColorData]?.soft || '#ffffff' }}>
+                    {colorData[category as keyof ColorData]?.soft || 'N/A'}
                   </td>
                 </tr>
               ))}
