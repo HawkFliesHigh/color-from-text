@@ -78,14 +78,14 @@ export default async function getColor(req: NextApiRequest, res: NextApiResponse
           soft: matches[17] || "#87CEFA" // ソフトなライトスカイブルー
         },
         Dark_background: {
-          strong: matches[18] || "#2F4F4F", // ダークスレートグレー
+          strong: matches[18] || "#121212", // より暗い背景色 (非常に暗いチャコール)
           standard: matches[19] || "#1C1C1C", // 標準的なブラックチャコール
           soft: matches[20] || "#000000" // ブラック
         },
         Dark_text: {
-          strong: matches[21] || "#FFFFFF", // 明るい白
-          standard: matches[22] || "#D3D3D3", // 標準的なライトグレー
-          soft: matches[23] || "#A9A9A9" // ソフトなダークグレー
+          strong: matches[21] || "#E0E0E0", // 明るすぎない白 (視認性を保ちながら眩しくない)
+          standard: matches[22] || "#B0B0B0", // 標準的なライトグレー (テキスト)
+          soft: matches[23] || "#8A8A8A" // ソフトなダークグレー (目に優しい色)
         }
       };
     };
