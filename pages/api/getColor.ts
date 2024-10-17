@@ -44,7 +44,6 @@ export default async function getColor(req: NextApiRequest, res: NextApiResponse
 
       // パースした色コードを使って色スキームを構築
       return {
-        {
           "Prime": {
             "light": matches[0] || "#FFA07A", // 明るいライトサーモン
             "medium": matches[1] || "#FF6347", // 中間の赤系
@@ -65,7 +64,6 @@ export default async function getColor(req: NextApiRequest, res: NextApiResponse
             "medium": matches[10] || "#4B4B4B", // 中間のチャコールグレー
             "dark": matches[11] || "#000000" // 暗い黒
           }
-        }
       };
     };
 
