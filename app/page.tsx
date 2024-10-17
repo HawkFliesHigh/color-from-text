@@ -66,7 +66,7 @@ export default function Home() {
         />
         <br />
         <button type="submit" disabled={loading} style={{ marginTop: '1rem' }}>
-          {loading ? '生成中...' : '色を生成'}
+          {loading ? '生成中...' : response}
         </button>
       </form>
 
