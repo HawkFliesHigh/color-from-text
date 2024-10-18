@@ -66,5 +66,4 @@ export default async function getColor(req: NextApiRequest, res: NextApiResponse
 
     // パースされた色スキームと口上をJSON形式で返す
     res.status(200).json({ color: colorScheme, koujou: koujou });
-}
-
+};
