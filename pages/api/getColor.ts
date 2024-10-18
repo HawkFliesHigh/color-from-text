@@ -6,6 +6,15 @@ const openai = new OpenAI({
 });
 
 export default async function getColor(req: NextApiRequest, res: NextApiResponse) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+  if (req.method === 'OPTIONS') {
+    res.status(200).end();
+    return;
+  }
+
   const { text } = req.body;
 
   if (!text) {
@@ -73,5 +82,3 @@ export default async function getColor(req: NextApiRequest, res: NextApiResponse
     res.status(500).json({ error: '色データの取得に失敗しました。' });
   }
 }
-
-
