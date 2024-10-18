@@ -2,23 +2,18 @@
 
 import { useState } from 'react';
 
-// 色データの型定義
-interface ColorCategory {
-  light: string;
-  medium: string;
-  dark: string;
-}
-
+// 色データの型定義（4色構成に変更）
 interface ColorData {
-  Prime: ColorCategory;
-  Accent: ColorCategory;
-  Background: ColorCategory;
-  Text: ColorCategory;
+  PrimaryColor: string;
+  AccentColor: string;
+  BackgroundColor: string;
+  TextColor: string;
 }
 
 export default function Home() {
   const [text, setText] = useState('');
   const [colorData, setColorData] = useState<ColorData | null>(null); // ColorData型を使用
+  const [koujou, setKoujou] = useState(''); // 口上の追加
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -38,10 +33,11 @@ export default function Home() {
 
       const data = await response.json();
 
-      if (data && data.color) {
+      if (data && data.color && data.koujou) {
         setColorData(data.color as ColorData); // ColorData型として色データを取得
+        setKoujou(data.koujou); // 口上を取得
       } else {
-        setError('色データを取得できませんでした');
+        setError('色データまたは口上を取得できませんでした');
       }
     } catch (error) {
       console.error('Error fetching color data:', error);
@@ -83,28 +79,24 @@ export default function Home() {
             <thead>
               <tr>
                 <th>カテゴリ</th>
-                <th>明るい</th>
-                <th>中間</th>
-                <th>暗い</th>
+                <th>カラーコード</th>
               </tr>
             </thead>
             <tbody>
-              {['Prime', 'Accent', 'Background', 'Text'].map((category) => (
+              {['PrimaryColor', 'AccentColor', 'BackgroundColor', 'TextColor'].map((category) => (
                 <tr key={category}>
                   <td>{category}</td>
-                  <td style={{ backgroundColor: colorData[category as keyof ColorData]?.light || '#ffffff' }}>
-                    {colorData[category as keyof ColorData]?.light || 'N/A'}
-                  </td>
-                  <td style={{ backgroundColor: colorData[category as keyof ColorData]?.medium || '#ffffff' }}>
-                    {colorData[category as keyof ColorData]?.medium || 'N/A'}
-                  </td>
-                  <td style={{ backgroundColor: colorData[category as keyof ColorData]?.dark || '#ffffff' }}>
-                    {colorData[category as keyof ColorData]?.dark || 'N/A'}
+                  <td style={{ backgroundColor: colorData[category as keyof ColorData] }}>
+                    {colorData[category as keyof ColorData] || 'N/A'}
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
+
+          {/* 口上の表示 */}
+          <h2 style={{ marginTop: '2rem' }}>生成された口上:</h2>
+          <p>{koujou}</p>
         </div>
       )}
     </div>
